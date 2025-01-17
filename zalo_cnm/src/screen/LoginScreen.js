@@ -1,7 +1,15 @@
 import React from "react";
 import "./../css/LoginScreen.css";
+import { useNavigate } from "react-router-dom";  
 
 function LoginScreen() {
+    const navigate = useNavigate();
+
+  // Xử lý sự kiện khi nhấn nút đăng nhập
+  const handleLogin = () => {
+    navigate("/home"); // Điều hướng tới trang HomeScreen
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
@@ -29,8 +37,9 @@ function LoginScreen() {
           </div>
 
           {/* Nút đăng nhập */}
-          <button className="login-button">Đăng nhập với mật khẩu</button>
-
+          <button className="login-button" onClick={handleLogin}>
+            Đăng nhập với mật khẩu
+          </button>
           {/* Link quên mật khẩu */}
           <p className="forgot-password">Quên mật khẩu</p>
         </div>
