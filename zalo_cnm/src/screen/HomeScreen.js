@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./../css/HomeScreen.css";
-
+import { useNavigate } from "react-router-dom"; 
 function HomeScreen() {
+  const [showSettings, setShowSettings] = useState(false);
+  const navigate = useNavigate();
+  // Hàm hiển thị/tắt menu settings
+  const toggleSettingsMenu = () => {
+    setShowSettings(!showSettings);
+  };
+  const handleLogout = () => {
+    navigate("/"); // Chuyển về màn hình đăng nhập
+  };
   return (
     <div className="home-screen">
       {/* Sidebar */}
@@ -16,16 +25,32 @@ function HomeScreen() {
           <img src="contacts.png" alt="Contacts Icon" />
         </div>
 
-        {/* Sidebar item mới ở dưới cùng */}
-        <div className="sidebar-item bottom">
+        {/* Nút Settings */}
+        <div className="sidebar-item bottom" onClick={toggleSettingsMenu}>
           <img src="settings.png" alt="Settings Icon" />
         </div>
       </div>
 
+      {/* Hiển thị menu cài đặt nếu được bật */}
+      {showSettings && (
+        <div className="settings-menu">
+          <ul>
+            <li>
+              Thông tin tài khoản
+            </li>
+            <li>
+              Cài đặt
+            </li>
+            <li className="logout" onClick={handleLogout}>
+              Đăng xuất
+            </li>
+          </ul>
+        </div>
+      )}
+
       {/* Message List */}
       <div className="message-list">
-        {/* Thanh tìm kiếm và nút Add Friend */}
-       <div className="search-container">
+        <div className="search-container">
           <div className="search-bar">
             <img src="search.png" alt="Search Icon" className="search-icon" />
             <span className="search-text">Tìm Kiếm</span>
@@ -34,10 +59,11 @@ function HomeScreen() {
             <img src="addfriend.png" alt="Add Friend" className="add-friend-icon" />
           </div>
           <div className="add-group">
-           <img src="addgroup.jpg" alt="Add Group" className="add-group-icon" />
-         </div>
+            <img src="addgroup.jpg" alt="Add Group" className="add-group-icon" />
+          </div>
+        </div>
       </div>
-    </div>
+
       {/* Welcome Screen */}
       <div className="welcome-screen">
         <h1>Chào mừng đến với Zalo PC!</h1>
@@ -53,6 +79,5 @@ function HomeScreen() {
     </div>
   );
 }
-
 
 export default HomeScreen;
