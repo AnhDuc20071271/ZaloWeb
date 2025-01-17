@@ -1,0 +1,192 @@
+/* Toàn bộ giao diện */
+.home-screen {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 80px;
+  background-color: #0068ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+.search-container {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #fff;
+}
+/* Sidebar items */
+.sidebar-item {
+  width: 50px;
+  height: 50px;
+  
+  margin: 10px 0;
+}
+.sidebar-image {
+  width: 100%; /* Đầy chiều rộng của khung */
+  height: auto; /* Tự động điều chỉnh chiều cao */
+  border-radius: 50%; /* Bo tròn để giữ hình tròn */
+  background-color: #fff;
+}
+
+.sidebar-icon {
+  width: 30px; /* Kích thước icon */
+  height: 30px;
+}
+.sidebar-item.second img {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của khung */
+  height: 100%; /* Chiếm toàn bộ chiều cao của khung */
+  object-fit: cover; /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
+  border-radius: 15%; /* Bo góc nhẹ cho hình ảnh */
+  transition: transform 0.2s ease, filter 0.2s ease;
+ 
+}
+.sidebar-item.third img {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của khung */
+  height: 100%; /* Chiếm toàn bộ chiều cao của khung */
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+  border-radius: 10%; /* Tùy chỉnh bo góc nếu cần */
+  transition: transform 0.2s ease, filter 0.2s ease;
+  background-color: transparent !important; /* Xóa nền và ưu tiên cao */
+  box-shadow: none !important; /* Xóa mọi bóng nền nếu có */
+  border: none !important; /* Xóa viền nếu có */
+}
+.sidebar-item.second:hover img,
+.sidebar-item.third:hover img {
+  transform: scale(1.2); /* Phóng to nhẹ biểu tượng */
+  filter: brightness(1.5); /* Làm sáng biểu tượng */
+}
+/* Sidebar item đầu tiên: hình tròn */
+.sidebar-item:first-child {
+  border-radius: 50%;
+}
+
+/* Các item còn lại: hình vuông */
+.sidebar-item:not(:first-child) {
+  border-radius: 10px;
+}
+.sidebar-item.bottom {
+  margin-top: auto; /* Đẩy xuống dưới cùng */
+  padding-bottom: 10px;
+}
+
+.sidebar-item.bottom img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.sidebar-item.bottom:hover img {
+  transform: scale(1.2);
+  filter: brightness(1.5);
+}
+
+/* Message List */
+.message-list {
+  width: 30%;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 350px;
+  height: 40px;
+  margin: 10px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 0  !important;
+  background-color: #fff;
+}
+
+/* Căn chỉnh biểu tượng */
+.search-icon {
+  width: 20px; /* Kích thước biểu tượng */
+  height: 20px;
+  margin-right: 10px; /* Khoảng cách giữa biểu tượng và chữ */
+}
+
+/* Văn bản tìm kiếm */
+.search-text {
+  flex: 1;
+  color: #333;
+  font-size: 14px;
+  margin-right: 240px;
+}
+
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.message {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+}
+.add-friend, .add-group {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #fff;
+  margin-left: 10px; /* Khoảng cách giữa hai icon */
+}
+
+/* Kích thước icon */
+.add-friend-icon, .add-group-icon {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Hiệu ứng hover cho các icon */
+.add-friend:hover .add-friend-icon, .add-group:hover .add-group-icon {
+  transform: scale(1.2);
+  filter: brightness(1.5);
+}
+
+/* Welcome Screen */
+.welcome-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.welcome-screen h1 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.welcome-screen p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.welcome-screen img {
+  margin: 20px 0;
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
+}
