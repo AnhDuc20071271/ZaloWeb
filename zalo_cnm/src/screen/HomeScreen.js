@@ -1,22 +1,37 @@
 import React, { useState } from "react";
 import "./../css/HomeScreen.css";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+
 function HomeScreen() {
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [activeTab, setActiveTab] = useState("Tất cả");
   const navigate = useNavigate();
-  // Hàm hiển thị/tắt menu settings
+
+  // Toggle menu hồ sơ
+  const toggleProfileMenu = () => {
+    setShowProfileMenu(!showProfileMenu);
+    setShowSettings(false); // Đóng menu settings nếu đang mở
+  };
+
+  // Toggle menu cài đặt
   const toggleSettingsMenu = () => {
     setShowSettings(!showSettings);
+    setShowProfileMenu(false); // Đóng menu hồ sơ nếu đang mở
   };
+
+  // Xử lý đăng xuất
   const handleLogout = () => {
     navigate("/"); // Chuyển về màn hình đăng nhập
   };
+
   return (
     <div className="home-screen">
       {/* Sidebar */}
       <div className="sidebar">
-        <div className="sidebar-item">
-          <img src="user.png" alt="Slide Bar 1" className="sidebar-image" />
+        {/* Sidebar item đầu tiên - Hiển thị menu hồ sơ */}
+        <div className="sidebar-item" onClick={toggleProfileMenu}>
+          <img src="user.png" alt="User Icon" className="sidebar-image" />
         </div>
         <div className="sidebar-item second">
           <img src="message.png" alt="Message Icon" />
@@ -25,11 +40,32 @@ function HomeScreen() {
           <img src="contacts.png" alt="Contacts Icon" />
         </div>
 
-        {/* Nút Settings */}
+        {/* Sidebar item cuối cùng - Hiển thị menu cài đặt */}
         <div className="sidebar-item bottom" onClick={toggleSettingsMenu}>
           <img src="settings.png" alt="Settings Icon" />
         </div>
       </div>
+
+      {/* Hiển thị menu hồ sơ nếu được bật */}
+      {showProfileMenu && (
+        <div className="profile-menu">
+          <div className="profile-header">
+            <img src="user.png" alt="User Avatar" className="profile-avatar" />
+            <span className="profile-name">Đức Nguyễn</span>
+          </div>
+          <ul className="profile-options">
+            <li>
+              Hồ sơ của bạn
+            </li>
+            <li>
+              Cài đặt
+            </li>
+            <li className="logout" onClick={handleLogout}>
+              Đăng xuất
+            </li>
+          </ul>
+        </div>
+      )}
 
       {/* Hiển thị menu cài đặt nếu được bật */}
       {showSettings && (
@@ -62,6 +98,29 @@ function HomeScreen() {
             <img src="addgroup.jpg" alt="Add Group" className="add-group-icon" />
           </div>
         </div>
+        <div className="message-tabs">
+          <span 
+            className={`tab ${activeTab === "Tất cả" ? "active" : ""}`} 
+            onClick={() => setActiveTab("Tất cả")}
+          >
+            Tất cả
+          </span>
+          <span 
+            className={`tab ${activeTab === "Chưa đọc" ? "active" : ""}`} 
+            onClick={() => setActiveTab("Chưa đọc")}
+          >
+            Chưa đọc
+          </span>
+          <span 
+            className={`tab ${activeTab === "Phân loại" ? "active" : ""}`} 
+            onClick={() => setActiveTab("Phân loại")}
+          >
+            Phân loại ▼
+          </span>
+          <span className="tab more">⋯</span>
+        </div>
+
+     
       </div>
 
       {/* Welcome Screen */}
