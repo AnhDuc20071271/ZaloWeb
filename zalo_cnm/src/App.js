@@ -1,14 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginScreen from "./screen/LoginScreen";  // Đúng đường dẫn
-import HomeScreen from "./screen/HomeScreen";    // Đúng đường dẫn
+import HomeScreen from "./screen/HomeScreen";
+import ContactsScreen from "./screen/ContactsScreen";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginScreen />} />
+        <Route path="/" element={<HomeScreen />} />
         <Route path="/home" element={<HomeScreen />} />
+        <Route path="/contacts" element={<ContactsScreen />} />
       </Routes>
     </Router>
   );

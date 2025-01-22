@@ -1,0 +1,156 @@
+/* Tổng thể màn hình */
+.contacts-screen {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Sidebar (giữ nguyên từ HomeScreen) */
+  .sidebar {
+    width: 80px;
+    background-color: #0068ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .sidebar-item {
+    width: 50px;
+    height: 50px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  
+  .sidebar-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .sidebar-item.active img {
+    border: 2px solid white;
+  }
+  
+  .sidebar-item.bottom {
+    margin-top: auto;
+  }
+  
+  /* Phần menu danh bạ */
+  .contacts-menu {
+    width: 250px;
+    background: white;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .contacts-menu-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .contacts-menu-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .contacts-menu-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  
+  .contacts-menu-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contacts-menu-item {
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .contacts-menu-item.active {
+    background-color: #e6f0ff;
+    font-weight: bold;
+  }
+  
+  /* Phần chứa danh sách bạn bè */
+  .contacts-container {
+    flex: 1;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Thanh tìm kiếm và bộ lọc */
+  .contacts-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .contacts-search {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  
+  .contacts-sort, .contacts-filter {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .contacts-sort:hover, .contacts-filter:hover {
+    background-color: #e6f0ff;
+  }
+  
+  /* Danh sách bạn bè */
+  .contacts-list {
+    flex: 1;
+    overflow-y: auto;
+    background: white;
+  }
+  
+  .contacts-group-title {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    color: #555;
+  }
+  
+  /* Mỗi mục bạn bè */
+  .contacts-friend {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+  }
+  
+  .contacts-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .contacts-name {
+    flex: 1;
+  }
+  
