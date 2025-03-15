@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import Sidebar from "../components/Sidebar"; // Import Sidebar component
 import "./../css/ContactsScreen.css";
 
 function ContactsScreen() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
-  // Danh sách bạn bè mẫu
+  // Dữ liệu danh bạ mẫu
   const friends = [
     { id: 1, name: "Black Bear", avatar: "blackbear.png" },
     { id: 2, name: "Cao Tiến Hoàng", avatar: "caotienhoang.png" },
@@ -25,23 +28,48 @@ function ContactsScreen() {
     return acc;
   }, {});
 
+  // Toggle menu hồ sơ
+  const toggleProfileMenu = () => {
+    setShowProfileMenu(!showProfileMenu);
+    setShowSettings(false);
+  };
+
+  // Toggle menu cài đặt
+  const toggleSettingsMenu = () => {
+    setShowSettings(!showSettings);
+    setShowProfileMenu(false);
+  };
+
   return (
     <div className="contacts-screen">
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="sidebar-item">
-          <img src="user.png" alt="User Icon" className="sidebar-image" />
+      <Sidebar activePage="contacts" onToggleProfile={toggleProfileMenu} onToggleSettings={toggleSettingsMenu} />
+
+      {/* Menu hồ sơ */}
+      {showProfileMenu && (
+        <div className="profile-menu">
+          <div className="profile-header">
+            <img src="user.png" alt="User Avatar" className="profile-avatar" />
+            <span className="profile-name">Đức Nguyễn</span>
+          </div>
+          <ul className="profile-options">
+            <li>Hồ sơ của bạn</li>
+            <li>Cài đặt</li>
+            <li className="logout">Đăng xuất</li>
+          </ul>
         </div>
-        <div className="sidebar-item second">
-          <img src="message.png" alt="Message Icon" />
+      )}
+
+      {/* Menu cài đặt */}
+      {showSettings && (
+        <div className="settings-menu">
+          <ul>
+            <li>Thông tin tài khoản</li>
+            <li>Cài đặt</li>
+            <li className="logout">Đăng xuất</li>
+          </ul>
         </div>
-        <div className="sidebar-item third active">
-          <img src="contacts.png" alt="Contacts Icon" />
-        </div>
-        <div className="sidebar-item bottom">
-          <img src="settings.png" alt="Settings Icon" />
-        </div>
-      </div>
+      )}
 
       {/* Phần danh sách bên trái (Menu danh bạ) */}
       <div className="contacts-menu">
@@ -60,12 +88,10 @@ function ContactsScreen() {
 
       {/* Phần danh sách bạn bè */}
       <div className="contacts-container">
-        {/* Thanh tiêu đề */}
         <div className="contacts-header">
           <h2>Danh sách bạn bè</h2>
         </div>
 
-        {/* Thanh tìm kiếm + Bộ lọc */}
         <div className="contacts-toolbar">
           <input
             type="text"

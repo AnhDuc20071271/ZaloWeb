@@ -200,6 +200,7 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
   width: 180px;
+  z-index: 1000;
 }
 
 .settings-menu ul {
@@ -235,13 +236,14 @@
 }
 .profile-menu {
   position: absolute;
-  top: 60px;
+  top: 50px;
   left: 90px;
   background: white;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
   width: 220px;
+  z-index: 1000; /* Giữ menu nổi trên UI */
 }
 
 /* Header trong profile menu */
@@ -335,3 +337,66 @@
   font-weight: bold;
   padding: 0 10px;
 }
+/* Danh sách tin nhắn */
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Mỗi tin nhắn */
+.chat-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  transition: background 0.2s ease;
+}
+
+.chat-item:hover {
+  background: #f5f5f5;
+}
+
+/* Ảnh đại diện tin nhắn */
+.chat-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Nội dung tin nhắn */
+.chat-info {
+  display: flex;
+  flex-direction: column; /* Đưa last message xuống dòng dưới */
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between; /* Đưa ngày tháng sang phải */
+  align-items: center;
+}
+
+.chat-name {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.chat-date {
+  font-size: 12px;
+  color: #999;
+  margin-left: auto; /* Đẩy ngày tháng về bên phải */
+}
+
+.chat-last-message {
+  font-size: 12px;
+  color: #666;
+  margin-top: 3px; /* Khoảng cách giữa tên và tin nhắn */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
