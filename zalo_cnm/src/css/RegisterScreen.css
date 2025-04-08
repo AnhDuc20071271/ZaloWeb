@@ -1,0 +1,97 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e5efff;
+  }
+  
+  .register-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 380px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .logo {
+    font-size: 32px;
+    color: #0068ff;
+    margin-bottom: 10px;
+  }
+  
+  .register-subtext {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .register-form {
+    text-align: left;
+  }
+  
+  .form-title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .input-group {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .country-code {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .register-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+  }
+  
+  .register-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0068ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .register-button:hover {
+    background-color: #0051cc;
+  }
+  
+  .already-account {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #0068ff;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .back-to-login {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #0068ff;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s ease, text-decoration 0.2s ease;
+  }
+  
+  .back-to-login:hover {
+    color: #004ecb;
+    text-decoration: underline;
+  }
+  

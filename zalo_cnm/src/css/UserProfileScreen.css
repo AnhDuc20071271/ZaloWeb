@@ -1,0 +1,121 @@
+/* ✅ UserProfileScreen.css đầy đủ */
+.profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.profile-popup {
+  background: #fff;
+  width: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.profile-header-cover img {
+  width: 100%;
+  height: 180px; /* trước đó là 150px */
+  object-fit: cover;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-avatar-section {
+  text-align: center;
+  margin-top: -40px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-avatar {
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.camera-overlay input[type="file"] {
+  display: none;
+}
+
+.profile-info {
+  padding: 20px;
+}
+
+.profile-info h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.hint {
+  color: gray;
+  font-size: 13px;
+}
+
+.update-btn {
+  padding: 0 20px 20px;
+  text-align: center;
+}
+
+.update-btn button {
+  background-color: #0068ff;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}

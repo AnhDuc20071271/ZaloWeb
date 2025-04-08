@@ -1,107 +1,121 @@
 /* Container chính */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #e5efff; /* Màu nền xanh nhạt */
-  }
-  
-  /* Khung đăng nhập */
-  .login-box {
-    background-color: white;
-    padding: 30px;
-    width: 400px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  /* Logo Zalo */
-  .logo {
-    color: #0068ff;
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  /* Mô tả ngắn */
-  .login-subtext {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
-  /* Tiêu đề form */
-  .form-title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  /* Nhóm input */
-  .input-group {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 15px;
-    background-color: #fff;
-  }
-  
-  /* Mã quốc gia */
-  .country-code {
-    border: none;
-    font-size: 14px;
-    background: none;
-    margin-right: 10px;
-  }
-  
-  /* Ô nhập liệu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e5efff; /* Màu nền xanh nhạt */
+}
+
+/* Khung đăng nhập */
+.login-box {
+  background-color: white;
+  padding: 30px;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Logo Zalo */
+.logo {
+  color: #0068ff;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Mô tả ngắn */
+.login-subtext {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Tiêu đề form */
+.form-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Nhóm input */
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+/* Mã quốc gia */
+.country-code {
+  border: none;
+  font-size: 14px;
+  background: none;
+  margin-right: 10px;
+}
+
 /* Ô nhập liệu */
 .login-input {
-    flex: 1;
-    border: none;
-    font-size: 14px;
-    outline: none;
-  }
-  
-  /* Icon trong input */
-  .input-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-  }
-  
-  
-  /* Nút đăng nhập */
-  .login-button {
-    width: 100%;
-    background-color: #0068ff;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .login-button:hover {
-    background-color: #0056d2;
-  }
-  
-  /* Quên mật khẩu */
-  .forgot-password {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #0068ff;
-    cursor: pointer;
-  }
-  
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
-  
+  flex: 1;
+  border: none;
+  font-size: 14px;
+  outline: none;
+}
+
+/* Nút đăng nhập */
+.login-button {
+  width: 100%;
+  background-color: #0068ff;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background-color: #0056d2;
+}
+
+/* Liên kết bổ sung */
+.login-links {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.register-link {
+  font-size: 14px;
+  color: #333;
+}
+
+.register-link span {
+  color: #0068ff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.register-link span:hover {
+  color: #004eb8;
+  text-decoration: underline;
+}
+
+.forgot-password {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #0068ff;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #004eb8;
+  text-decoration: underline;
+}

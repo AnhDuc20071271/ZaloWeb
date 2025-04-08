@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
+import UserProfileScreen from "./UserProfileScreen";
 import "./../css/HomeScreen.css";
 
 function HomeScreen() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [activeTab, setActiveTab] = useState("Tất cả");
+  const [showProfile, setShowProfile] = useState(false);
+  const navigate = useNavigate();
 
   const messages = [
-    { id: 1, name: "Nguyễn Bảo Thành", lastMessage: "Ờ", date: "19/02", avatar: "avatar1.jpg" },
-    { id: 2, name: "Nguyên Đai", lastMessage: "ok", date: "18/02", avatar: "avatar2.jpg" },
-    { id: 3, name: "Phạm Xuân Thức", lastMessage: "[Thiệp] Gửi lời chào", date: "18/02", avatar: "avatar3.jpg" },
-    { id: 4, name: "Nguyễn Duy Bảo", lastMessage: "uk", date: "13/01", avatar: "avatar6.jpg" },
+    { id: 1, name: "Nguyễn Bảo Thành", lastMessage: "ờ", date: "19/02", avatar: "avatar1.jpg" },
+    { id: 2, name: "Nguyên Đai", lastMessage: "ok", date: "18/02", avatar: "avatar2.png" },
+    { id: 3, name: "Phạm Xuân Thức", lastMessage: "[Thiệp] Gửi lời chào", date: "18/02", avatar: "avatar3.png" },
+    { id: 4, name: "Nguyễn Duy Bảo", lastMessage: "uk", date: "13/01", avatar: "avatar4.jpg" },
   ];
 
   const toggleProfileMenu = () => {
@@ -22,6 +26,10 @@ function HomeScreen() {
   const toggleSettingsMenu = () => {
     setShowSettings(!showSettings);
     setShowProfileMenu(false);
+  };
+
+  const handleLogout = () => {
+    navigate("/"); // quay về trang đăng nhập
   };
 
   return (
@@ -37,9 +45,9 @@ function HomeScreen() {
             <span className="profile-name">Đức Nguyễn</span>
           </div>
           <ul className="profile-options">
-            <li>Hồ sơ của bạn</li>
+            <li onClick={() => setShowProfile(true)}>Hồ sơ của bạn</li>
             <li>Cài đặt</li>
-            <li className="logout">Đăng xuất</li>
+            <li className="logout" onClick={handleLogout}>Đăng xuất</li>
           </ul>
         </div>
       )}
@@ -50,9 +58,24 @@ function HomeScreen() {
           <ul>
             <li>Thông tin tài khoản</li>
             <li>Cài đặt</li>
-            <li className="logout">Đăng xuất</li>
+            <li className="logout" onClick={handleLogout}>Đăng xuất</li>
           </ul>
         </div>
+      )}
+
+      {/* Giao diện hồ sơ */}
+      {showProfile && (
+        <UserProfileScreen
+          user={{
+            name: "Đức Nguyễn",
+            phone: "+84 357 695 485",
+            gender: "Nam",
+            dob: "06 tháng 09, 2002",
+            avatar: "/user.png",
+            cover: "/cover.jpg"
+          }}
+          onClose={() => setShowProfile(false)}
+        />
       )}
 
       {/* Danh sách tin nhắn */}
@@ -66,16 +89,10 @@ function HomeScreen() {
 
         {/* Tabs */}
         <div className="message-tabs">
-          <span className={`tab ${activeTab === "Tất cả" ? "active" : ""}`} onClick={() => setActiveTab("Tất cả")}>
-            Tất cả
-          </span>
-          <span className={`tab ${activeTab === "Chưa đọc" ? "active" : ""}`} onClick={() => setActiveTab("Chưa đọc")}>
-            Chưa đọc
-          </span>
-          <span className={`tab ${activeTab === "Phân loại" ? "active" : ""}`} onClick={() => setActiveTab("Phân loại")}>
-            Phân loại ▼
-          </span>
-          <span className="tab more">⋯</span>
+          <span className={`tab ${activeTab === "Tất cả" ? "active" : ""}`} onClick={() => setActiveTab("Tất cả")}>Tất cả</span>
+          <span className={`tab ${activeTab === "Chưa đọc" ? "active" : ""}`} onClick={() => setActiveTab("Chưa đọc")}>Chưa đọc</span>
+          <span className={`tab ${activeTab === "Phân loại" ? "active" : ""}`} onClick={() => setActiveTab("Phân loại")}>Phân loại ▼</span>
+          <span className="tab more">&hellip;</span>
         </div>
 
         {/* Danh sách tin nhắn */}
@@ -105,7 +122,7 @@ function HomeScreen() {
           src="https://chat.zalo.me/assets/quick-message-onboard.3950179c175f636e91e3169b65d1b3e2.png"
           alt="Welcome Illustration"
         />
-        <p>Nhấn tin nhiều hơn, soạn thảo ít hơn</p>
+        <p>Nhắn tin nhiều hơn, soạn thảo ít hơn</p>
       </div>
     </div>
   );
