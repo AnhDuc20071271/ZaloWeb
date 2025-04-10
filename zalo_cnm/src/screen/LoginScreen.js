@@ -1,5 +1,3 @@
-// ✅ LoginScreen.js – Có thêm nút Đăng ký & Quên mật khẩu
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,25 +8,41 @@ function LoginScreen() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const isValidPhone = (phone) => /^0\d{9}$/.test(phone) || /^\+84\d{9}$/.test(phone);
+
+  const normalizePhone = (phone) => {
+    if (phone.startsWith("+84")) return phone;
+    return phone.replace(/^0/, "+84");
+  };
+
   const handleLogin = async () => {
-    if (!phone || !password) {
-      alert("Vui lòng nhập đầy đủ số điện thoại và mật khẩu");
+    if (!isValidPhone(phone)) {
+      alert("Số điện thoại không hợp lệ. Nhập theo định dạng 0xxxxxxxxx hoặc +84xxxxxxxxx");
       return;
     }
 
+    if (!password) {
+      alert("Vui lòng nhập mật khẩu");
+      return;
+    }
+
+    const normalizedPhone = normalizePhone(phone);
+
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
-        phone,
+        phone: normalizedPhone,
         password,
       });
 
       if (res.data.success) {
         alert("Đăng nhập thành công!");
+        sessionStorage.setItem("phone", normalizedPhone); // ✅ lưu SĐT cho HomeScreen dùng
         navigate("/home");
       } else {
         alert("Đăng nhập thất bại: " + res.data.message);
       }
     } catch (err) {
+      console.error("Lỗi đăng nhập:", err);
       alert(err.response?.data?.message || "Đăng nhập thất bại");
     }
   };
@@ -48,7 +62,7 @@ function LoginScreen() {
             <input
               type="text"
               className="login-input"
-              placeholder="Số điện thoại (vd: +841234567)"
+              placeholder="Số điện thoại (vd: 0357695485)"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -65,20 +79,17 @@ function LoginScreen() {
           </div>
 
           <button className="login-button" onClick={handleLogin}>
-            Đăng nhập 
+            Đăng nhập
           </button>
 
-          {/* Đăng ký và Quên mật khẩu */}
-                      <div className="login-links">
-              <p className="register-link">
-                Chưa có tài khoản?{" "}
-                <span onClick={() => navigate("/register")}>Đăng ký</span>
-              </p>
-              <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
-                Quên mật khẩu?
-              </p>
-            </div>
-
+          <div className="login-links">
+            <p className="register-link">
+              Chưa có tài khoản? <span onClick={() => navigate("/register")}>Đăng ký</span>
+            </p>
+            <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
+              Quên mật khẩu?
+            </p>
+          </div>
         </div>
       </div>
     </div>

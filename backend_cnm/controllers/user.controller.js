@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const sql = require("mssql");
-const db = require("../db/sql");
+const db = require("../db/aws");
 
 exports.updateAvatar = async (req, res) => {
   const { phone } = req.body;

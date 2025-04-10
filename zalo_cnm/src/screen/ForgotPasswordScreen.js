@@ -1,3 +1,4 @@
+// ✅ ForgotPasswordScreen.js – Cho phép nhập SĐT dạng 035xxxxxxx và tự động chuyển sang +84 khi gửi OTP
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, RecaptchaVerifier, signInWithPhoneNumber } from "../firebase";
@@ -13,7 +14,14 @@ function ForgotPasswordScreen() {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const navigate = useNavigate();
 
-  const isValidPhone = (phone) => /^\+84\d{9}$/.test(phone);
+  const convertToIntlPhone = (vnPhone) => {
+    if (vnPhone.startsWith("0")) {
+      return "+84" + vnPhone.slice(1);
+    }
+    return vnPhone;
+  };
+
+  const isValidVNPhone = (phone) => /^0\d{9}$/.test(phone);
 
   const setupRecaptcha = () => {
     if (!window.recaptchaVerifier) {
@@ -25,8 +33,8 @@ function ForgotPasswordScreen() {
   };
 
   const handleSendOTP = async () => {
-    if (!isValidPhone(phone)) {
-      alert("SĐT không hợp lệ. Dạng: +84xxxxxxxxx");
+    if (!isValidVNPhone(phone)) {
+      alert("SĐT không hợp lệ. Dạng: 0xxxxxxxxx");
       return;
     }
 
@@ -34,7 +42,7 @@ function ForgotPasswordScreen() {
     const appVerifier = window.recaptchaVerifier;
 
     try {
-      const result = await signInWithPhoneNumber(auth, phone, appVerifier);
+      const result = await signInWithPhoneNumber(auth, convertToIntlPhone(phone), appVerifier);
       setConfirmationResult(result);
       setStep("otp");
       alert("Mã OTP đã gửi đến SĐT của bạn!");
@@ -71,7 +79,7 @@ function ForgotPasswordScreen() {
       });
 
       alert("Mật khẩu đã được đặt lại thành công!");
-      navigate("/"); // ✅ Trở về màn hình đăng nhập
+      navigate("/");
     } catch (err) {
       alert("Đặt lại mật khẩu thất bại");
     }
@@ -86,7 +94,7 @@ function ForgotPasswordScreen() {
           <>
             <input
               type="text"
-              placeholder="SĐT dạng +84..."
+              placeholder="SĐT dạng 035..."
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
