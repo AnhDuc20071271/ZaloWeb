@@ -20,4 +20,5 @@ router.post("/update-profile", authController.updateProfile);
 router.post("/upload-avatar", upload.single("avatar"), authController.uploadAvatar);
 router.get("/user/:phone", authController.getUserByPhone);
 router.get("/:phone", authController.getUserByPhone);
+
 module.exports = router;

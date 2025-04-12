@@ -8,13 +8,13 @@ const dynamodb = require("../db/aws");
 
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || "users-zalolite";
 
-// ✅ Chuẩn hoá định dạng số điện thoại (035xxx → +8435xxx)
+// ✅ Chuyển 035xxx hoặc +8435xxx → 8435xxx
 const normalizePhone = (phone) => {
   if (!phone) return "";
-  return phone.startsWith("+84") ? phone : phone.replace(/^0/, "+84");
+  return phone.replace(/^0/, "84").replace(/^\+84/, "84");
 };
 
-// ✅ Đăng ký tài khoản
+// ✅ Đăng ký
 exports.registerUser = async (req, res) => {
   const { phone, password, name, avatar = "/default-avatar.png", status = "online" } = req.body;
   const normalizedPhone = normalizePhone(phone);
@@ -106,7 +106,7 @@ exports.resetPassword = async (req, res) => {
       }
     }));
 
-    res.json({ success: true, message: "Đặt lại mật khẩu thành công" });
+    res.json({ success: true, message: "Cập nhật mật khẩu thành công" });
   } catch (err) {
     console.error("❌ Lỗi resetPassword:", err);
     res.status(500).json({ success: false, message: "Cập nhật thất bại", error: err.message });
@@ -143,7 +143,7 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-// ✅ Upload ảnh đại diện
+// ✅ Upload avatar
 exports.uploadAvatar = async (req, res) => {
   const { phone, name } = req.body;
   const file = req.file;
@@ -166,34 +166,25 @@ exports.uploadAvatar = async (req, res) => {
       }
     }));
 
-    res.json({ success: true, message: "Cập nhật ảnh đại diện thành công", avatar: avatarPath });
+    res.json({ success: true, message: "Cập nhật avatar thành công", avatar: avatarPath });
   } catch (err) {
     console.error("❌ Lỗi uploadAvatar:", err);
     res.status(500).json({ success: false, message: "Upload thất bại", error: err.message });
   }
 };
 
-// ✅ Lấy thông tin người dùng
+// ✅ Lấy thông tin người dùng theo phone
 exports.getUserByPhone = async (req, res) => {
   const { phone } = req.params;
-
-  if (!phone) {
-    return res.status(400).json({ success: false, message: "Thiếu số điện thoại" });
-  }
-
-  const normalizedPhone = phone.startsWith("+84") ? phone : phone.replace(/^0/, "+84");
+  const normalizedPhone = normalizePhone(phone);
 
   try {
-    // ✅ Sử dụng Query thay vì GetCommand do có sort key (name)
     const result = await dynamodb.send(new QueryCommand({
       TableName: TABLE_NAME,
-      KeyConditionExpression: "#p = :phone",
-      ExpressionAttributeNames: {
-        "#p": "phone",
-      },
+      KeyConditionExpression: "phone = :p",
       ExpressionAttributeValues: {
-        ":phone": normalizedPhone,
-      },
+        ":p": normalizedPhone
+      }
     }));
 
     if (!result.Items || result.Items.length === 0) {
@@ -202,8 +193,7 @@ exports.getUserByPhone = async (req, res) => {
 
     res.json({ success: true, user: result.Items[0] });
   } catch (err) {
-    console.error("❌ Lỗi lấy thông tin người dùng:", err);
+    console.error("❌ Lỗi getUserByPhone:", err);
     res.status(500).json({ success: false, message: "Lỗi máy chủ", error: err.message });
   }
 };
-

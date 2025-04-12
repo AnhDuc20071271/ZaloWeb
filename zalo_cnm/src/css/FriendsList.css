@@ -1,0 +1,43 @@
+/* css/FriendsList.css */
+.friends-list-container {
+    padding: 16px;
+  }
+  
+  .letter-header {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .friend-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .friend-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+  }
+  
+  .friend-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .friend-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #222;
+  }
+  
+  .friend-phone {
+    font-size: 13px;
+    color: #777;
+  }
+  

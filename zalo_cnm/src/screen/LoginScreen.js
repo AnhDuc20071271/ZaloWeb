@@ -8,11 +8,13 @@ function LoginScreen() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // ✅ Kiểm tra SĐT hợp lệ (0xxx... hoặc +84xxx...)
   const isValidPhone = (phone) => /^0\d{9}$/.test(phone) || /^\+84\d{9}$/.test(phone);
 
+  // ✅ Chuẩn hóa về dạng: 84xxxxxxxxx (không dấu +)
   const normalizePhone = (phone) => {
-    if (phone.startsWith("+84")) return phone;
-    return phone.replace(/^0/, "+84");
+    if (phone.startsWith("+84")) return phone.replace("+84", "84");
+    return phone.replace(/^0/, "84");
   };
 
   const handleLogin = async () => {
@@ -36,13 +38,13 @@ function LoginScreen() {
 
       if (res.data.success) {
         alert("Đăng nhập thành công!");
-        sessionStorage.setItem("phone", normalizedPhone); // ✅ lưu SĐT cho HomeScreen dùng
+        sessionStorage.setItem("phone", normalizedPhone);
         navigate("/home");
       } else {
         alert("Đăng nhập thất bại: " + res.data.message);
       }
     } catch (err) {
-      console.error("Lỗi đăng nhập:", err);
+      console.error("❌ Lỗi đăng nhập:", err);
       alert(err.response?.data?.message || "Đăng nhập thất bại");
     }
   };

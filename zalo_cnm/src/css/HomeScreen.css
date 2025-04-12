@@ -300,7 +300,7 @@
   text-align: center;
   border: none;
 }
-/* Tabs danh mục tin nhắn */
+
 /* Tabs danh mục tin nhắn */
 .message-tabs {
   display: flex;
@@ -400,3 +400,25 @@
   text-overflow: ellipsis;
 }
 
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.action-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-icon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+}

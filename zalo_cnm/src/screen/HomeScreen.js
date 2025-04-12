@@ -3,6 +3,8 @@ import Sidebar from "../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserProfileScreen from "./UserProfileScreen";
+import AddFriendModal from "../components/AddFriendModal";
+import ChatWindow from "../components/ChatWindow";
 import "./../css/HomeScreen.css";
 
 function HomeScreen() {
@@ -11,7 +13,18 @@ function HomeScreen() {
   const [showSettings, setShowSettings] = useState(false);
   const [activeTab, setActiveTab] = useState("Tất cả");
   const [showProfile, setShowProfile] = useState(false);
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
   const navigate = useNavigate();
+
+  const normalizePhone = (phone) => {
+    if (!phone) return "";
+    if (phone.startsWith("+84")) return phone.replace("+84", "84");
+    if (phone.startsWith("0")) return phone.replace(/^0/, "84");
+    return phone;
+  };
 
   useEffect(() => {
     const phone = sessionStorage.getItem("phone");
@@ -20,9 +33,9 @@ function HomeScreen() {
       return;
     }
 
-    const encodedPhone = encodeURIComponent(phone); // encode +84 thành %2B84
+    const normalizedPhone = normalizePhone(phone);
     axios
-      .get(`http://localhost:5000/api/auth/${encodedPhone}`)
+      .get(`http://localhost:5000/api/auth/${normalizedPhone}`)
       .then((res) => {
         if (res.data.success) {
           setUser(res.data.user);
@@ -51,12 +64,34 @@ function HomeScreen() {
     setShowProfileMenu(false);
   };
 
-  const messages = [
-    { id: 1, name: "Nguyễn Bảo Thành", lastMessage: "ờ", date: "19/02", avatar: "avatar1.jpg" },
-    { id: 2, name: "Nguyên Đai", lastMessage: "ok", date: "18/02", avatar: "avatar2.png" },
-    { id: 3, name: "Phạm Xuân Thức", lastMessage: "[Thiệp] Gửi lời chào", date: "18/02", avatar: "avatar3.png" },
-    { id: 4, name: "Nguyễn Duy Bảo", lastMessage: "uk", date: "13/01", avatar: "avatar4.jpg" },
-  ];
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const phone = sessionStorage.getItem("phone");
+      const normalizedPhone = normalizePhone(phone);
+
+      if (!normalizedPhone) return;
+
+      try {
+        const friendsRes = await axios.get(`http://localhost:5000/api/friends/list/${normalizedPhone}`);
+        const friends = friendsRes.data.friends || [];
+
+        const fakeMessages = friends.map((friend, index) => ({
+          id: index + 1,
+          name: friend.name,
+          phone: friend.phone,
+          lastMessage: "Hãy bắt đầu trò chuyện!",
+          date: new Date().toLocaleDateString("vi-VN"),
+          avatar: friend.avatar || "/default-avatar.png",
+        }));
+
+        setMessages(fakeMessages);
+      } catch (err) {
+        console.error("❌ Lỗi lấy bạn bè cho message:", err);
+      }
+    };
+
+    fetchMessages();
+  }, []);
 
   return (
     <div className="home-screen">
@@ -66,7 +101,6 @@ function HomeScreen() {
         onToggleSettings={toggleSettingsMenu}
       />
 
-      {/* Hồ sơ menu */}
       {showProfileMenu && user && (
         <div className="profile-menu">
           <div className="profile-header">
@@ -74,35 +108,49 @@ function HomeScreen() {
             <span className="profile-name">{user.name || "Người dùng"}</span>
           </div>
           <ul className="profile-options">
-            <li onClick={() => setShowProfile(true)}>Hồ sơ của bạn</li>
+            <li onClick={() => setShowProfile(true)}>Ồ sơ của bạn</li>
             <li>Cài đặt</li>
-            <li className="logout" onClick={handleLogout}>Đăng xuất</li>
+            <li className="logout" onClick={handleLogout}> Đăng xuất</li>
           </ul>
         </div>
       )}
 
-      {/* Cài đặt menu */}
       {showSettings && (
         <div className="settings-menu">
           <ul>
             <li>Thông tin tài khoản</li>
             <li>Cài đặt</li>
-            <li className="logout" onClick={handleLogout}>Đăng xuất</li>
+            <li className="logout" onClick={handleLogout}> Đăng xuất</li>
           </ul>
         </div>
       )}
 
-      {/* Hồ sơ popup */}
       {showProfile && user && (
         <UserProfileScreen user={user} onClose={() => setShowProfile(false)} />
       )}
 
-      {/* Danh sách tin nhắn */}
       <div className="message-list">
         <div className="search-container">
           <div className="search-bar">
             <img src="search.png" alt="Search Icon" className="search-icon" />
             <span className="search-text">Tìm Kiếm</span>
+          </div>
+
+          <div className="action-icons">
+            <img
+              src="/addfriend.png"
+              alt="Thêm bạn"
+              className="action-icon"
+              title="Thêm bạn"
+              onClick={() => setShowAddFriend(true)}
+            />
+            <img
+              src="/addgroup.jpg"
+              alt="Tạo nhóm"
+              className="action-icon"
+              title="Tạo nhóm"
+              onClick={() => alert("Chức năng Tạo nhóm đang phát triển")}
+            />
           </div>
         </div>
 
@@ -115,7 +163,11 @@ function HomeScreen() {
 
         <div className="chat-list">
           {messages.map((msg) => (
-            <div className="chat-item" key={msg.id}>
+            <div
+              className="chat-item"
+              key={msg.id}
+              onClick={() => setSelectedFriend(msg)}
+            >
               <img src={msg.avatar} alt={msg.name} className="chat-avatar" />
               <div className="chat-info">
                 <div className="chat-header">
@@ -129,16 +181,32 @@ function HomeScreen() {
         </div>
       </div>
 
-      {/* Màn hình chào mừng */}
-      <div className="welcome-screen">
-        <h1>Chào mừng đến với Zalo PC!</h1>
-        <p>Khám phá tiện ích hỗ trợ làm việc và trò chuyện cùng bạn bè.</p>
-        <img
-          src="https://chat.zalo.me/assets/quick-message-onboard.3950179c175f636e91e3169b65d1b3e2.png"
-          alt="Welcome"
+      {showAddFriend && (
+        <AddFriendModal
+          currentUserPhone={user?.phone}
+          onClose={() => setShowAddFriend(false)}
         />
-        <p>Nhắn tin nhiều hơn, soạn thảo ít hơn</p>
-      </div>
+      )}
+
+      {!selectedFriend && (
+        <div className="welcome-screen">
+          <h1>Chào mừng đến với Zalo PC!</h1>
+          <p>Khám phá tiện ích hỗ trợ làm việc và trò chuyện cùng bạn bè.</p>
+          <img
+            src="https://chat.zalo.me/assets/quick-message-onboard.3950179c175f636e91e3169b65d1b3e2.png"
+            alt="Welcome"
+          />
+          <p>Nhắn tin nhiều hơn, soạn thảo ít hơn</p>
+        </div>
+      )}
+
+      {selectedFriend && (
+        <ChatWindow
+          selectedFriend={selectedFriend}
+          currentUser={user}
+          onClose={() => setSelectedFriend(null)}
+        />
+      )}
     </div>
   );
 }

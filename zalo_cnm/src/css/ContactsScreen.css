@@ -153,4 +153,42 @@
   .contacts-name {
     flex: 1;
   }
+  .friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 16px;
+  }
+  
+  .friend-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  .friend-card .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .friend-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .friend-name {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  
+  .friend-phone {
+    font-size: 13px;
+    color: #888;
+  }
   

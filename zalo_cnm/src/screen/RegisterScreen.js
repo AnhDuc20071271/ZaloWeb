@@ -13,14 +13,16 @@ function RegisterScreen() {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const navigate = useNavigate();
 
-  // ✅ Cho phép +84xxxxxxxxx hoặc 0xxxxxxxxx
+  // ✅ Hợp lệ: 0xxx hoặc +84xxx
   const isValidPhone = (phone) => /^(\+84|0)\d{9}$/.test(phone);
 
+  // ✅ Firebase cần định dạng quốc tế +84
   const convertToInternational = (phone) =>
     phone.startsWith("+84") ? phone : phone.replace(/^0/, "+84");
 
+  // ✅ Backend cần: 84xxx (loại bỏ +)
   const convertToBackendPhone = (phone) =>
-    phone.startsWith("+84") ? phone : phone.replace(/^0/, "+84");
+    phone.startsWith("+84") ? phone.replace("+84", "84") : phone.replace(/^0/, "84");
 
   const setupRecaptcha = () => {
     if (!window.recaptchaVerifier) {
@@ -46,7 +48,7 @@ function RegisterScreen() {
       setStep("otp");
       alert("Đã gửi mã OTP!");
     } catch (err) {
-      console.error("Lỗi gửi OTP:", err);
+      console.error("❌ Lỗi gửi OTP:", err);
       alert("Không gửi được OTP");
     }
   };
@@ -54,7 +56,6 @@ function RegisterScreen() {
   const handleVerifyOTP = async () => {
     try {
       await confirmationResult.confirm(otp);
-
       const backendPhone = convertToBackendPhone(phone);
 
       await axios.post("http://localhost:5000/api/auth/register", {
@@ -65,10 +66,10 @@ function RegisterScreen() {
         status: "online",
       });
 
-      alert("Đăng ký thành công!");
+      alert("✅ Đăng ký thành công!");
       navigate("/");
     } catch (err) {
-      console.error("Xác thực OTP lỗi:", err);
+      console.error("❌ Xác thực OTP lỗi:", err);
       alert("OTP sai hoặc đã hết hạn");
     }
   };
@@ -95,7 +96,7 @@ function RegisterScreen() {
                 <input
                   type="text"
                   className="register-input"
-                  placeholder="Số điện thoại (VD: 035... hoặc +8435...)"
+                  placeholder="Số điện thoại (VD: 035xxx hoặc +8435xxx)"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
