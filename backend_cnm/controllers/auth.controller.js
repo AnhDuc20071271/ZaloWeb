@@ -6,6 +6,8 @@ const {
 } = require("@aws-sdk/lib-dynamodb");
 const dynamodb = require("../db/aws");
 
+const bcrypt = require("bcrypt");
+
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || "users-zalolite";
 
 // ✅ Chuyển 035xxx hoặc +8435xxx → 8435xxx
@@ -16,41 +18,41 @@ const normalizePhone = (phone) => {
 
 // ✅ Đăng ký
 exports.registerUser = async (req, res) => {
-  const { phone, password, name, avatar = "/default-avatar.png", status = "online" } = req.body;
+  const { phone, password, name } = req.body;
   const normalizedPhone = normalizePhone(phone);
 
   if (!phone || !password || !name) {
-    return res.status(400).json({ success: false, message: "Thiếu thông tin bắt buộc" });
+    return res.status(400).json({ success: false, message: "Thiếu thông tin" });
   }
 
   try {
+    // Kiểm tra đã tồn tại
     const check = await dynamodb.send(new GetCommand({
       TableName: TABLE_NAME,
       Key: { phone: normalizedPhone, name }
     }));
 
     if (check.Item) {
-      return res.status(409).json({ success: false, message: "Tài khoản đã tồn tại" });
+      return res.status(409).json({ success: false, message: "Người dùng đã tồn tại" });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     await dynamodb.send(new PutCommand({
       TableName: TABLE_NAME,
       Item: {
         phone: normalizedPhone,
         name,
-        password,
-        avatar,
-        status,
-        isPhoneVerified: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        password: hashedPassword,
+        avatar: "/default.png",
+        status: "online"
       }
     }));
 
-    res.json({ success: true, message: "Đăng ký thành công!" });
+    res.json({ success: true, message: "Đăng ký thành công" });
   } catch (err) {
     console.error("❌ Lỗi đăng ký:", err);
-    res.status(500).json({ success: false, message: "Đăng ký thất bại", error: err.message });
+    res.status(500).json({ success: false, message: "Lỗi máy chủ", error: err.message });
   }
 };
 
@@ -73,13 +75,22 @@ exports.loginUser = async (req, res) => {
     }));
 
     const users = result.Items || [];
-    const user = users.find(u => u.password === password);
 
-    if (!user) {
+    // ⚠️ Tìm user theo phone, sau đó so sánh bằng bcrypt
+    let userMatch = null;
+    for (const user of users) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        userMatch = user;
+        break;
+      }
+    }
+
+    if (!userMatch) {
       return res.status(401).json({ success: false, message: "SĐT hoặc mật khẩu không đúng" });
     }
 
-    res.json({ success: true, message: "Đăng nhập thành công", user });
+    res.json({ success: true, message: "Đăng nhập thành công", user: userMatch });
   } catch (err) {
     console.error("❌ Lỗi đăng nhập:", err);
     res.status(500).json({ success: false, message: "Lỗi máy chủ", error: err.message });
